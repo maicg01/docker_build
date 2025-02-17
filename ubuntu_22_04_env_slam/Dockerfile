@@ -37,6 +37,9 @@ RUN apt-get update && apt-get install -y \
     libopenblas-dev \
     libopenmpi-dev \
     libhdf5-dev \
+    libvtk9-dev \
+    qtbase5-dev \
+    qtdeclarative5-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Cài đặt Eigen (3.4.0)
@@ -80,7 +83,7 @@ RUN git clone https://github.com/RainerKuemmerle/g2o.git && \
 WORKDIR /tmp
 RUN git clone https://github.com/PointCloudLibrary/pcl.git && \
     cd pcl && \
-    git checkout pcl-1.12.1 && \
+    git checkout pcl-1.12.0 && \
     mkdir build && cd build && \
     cmake .. && make -j$(nproc) && make install && \
     cd /tmp && rm -rf pcl
