@@ -24,3 +24,7 @@ docker run -it --rm \
   file_code_run \
 ```
 
+```bash
+docker run -it --privileged --net=host --ipc=host     --name="orbslam3"     --gpus=all     -e "DISPLAY=$DISPLAY"     -e "QT_X11_NO_MITSHM=1"     -v "/tmp/.X11-unix:/tmp/.X11-unix:rw"     -e "XAUTHORITY=$XAUTH"     -e ROS_IP=127.0.0.1     --cap-add=SYS_PTRACE     -v /etc/group:/etc/group:ro     -v `pwd`/SuperVINS:/SuperVINS     orbslam3:latest bash
+```
+Note: -v -> mount duong dan pwd/SuperVins vao folder SuperVins
