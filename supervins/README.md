@@ -4,6 +4,7 @@ touch $XAUTH
 xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
 
 docker run -it --rm \
+  --name supervins_v2 \
   --privileged \
   --network=host \
   --env="DISPLAY=$DISPLAY" \
