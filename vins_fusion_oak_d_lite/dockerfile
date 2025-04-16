@@ -1,0 +1,78 @@
+FROM ros:noetic-perception
+
+ENV CERES_VERSION="1.14.0"
+ENV CATKIN_WS=/root/catkin_ws
+
+      # set up thread number for building
+RUN   if [ "x$(nproc)" = "x1" ] ; then export USE_PROC=1 ; \
+      else export USE_PROC=$(($(nproc)/2)) ; fi && \
+      apt-get update && apt-get install -y \
+      git \
+      cmake \
+      libatlas-base-dev \
+      libeigen3-dev \
+      libgoogle-glog-dev \
+      libsuitesparse-dev \
+      python3-catkin-tools \
+      python3-pip \
+      usbutils \
+      ros-${ROS_DISTRO}-cv-bridge \
+      ros-${ROS_DISTRO}-image-transport \
+      ros-${ROS_DISTRO}-message-filters \
+      ros-${ROS_DISTRO}-rviz \
+      ros-${ROS_DISTRO}-tf && \
+      rm -rf /var/lib/apt/lists/* && \
+      # Build and install Ceres
+      git clone https://ceres-solver.googlesource.com/ceres-solver && \
+      cd ceres-solver && \
+      git checkout tags/${CERES_VERSION} && \
+      mkdir build && cd build && \
+      cmake .. && \
+      make -j$(USE_PROC) install && \
+      rm -rf ../../ceres-solver && \
+      mkdir -p $CATKIN_WS/src/VINS-Fusion/
+
+# depth ai
+
+RUN apt-get update && apt-get install -y wget build-essential cmake pkg-config libjpeg-dev libtiff5-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran git libopencv-dev
+
+ADD depthai-python/ci/docker_dependencies.sh .
+RUN ./docker_dependencies.sh
+
+RUN pip install -U pip && pip install --extra-index-url https://www.piwheels.org/simple/ --prefer-binary opencv-python
+RUN python3 -m pip install pyserial
+
+# Copy over the files
+COPY /depthai-python /depthai-python
+
+
+# # Install C++ library
+# RUN cmake -S /depthai-python/depthai-core -B /build -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS=ON -D CMAKE_INSTALL_PREFIX=/usr/local
+# RUN cmake --build /build --parallel 4 --config Relase --target install
+
+# Install Python library
+RUN cd /depthai-python && python3 -m pip install .
+
+
+
+# Copy VINS-Fusion
+# COPY ./ $CATKIN_WS/
+# # use the following line if you only have this dockerfile
+# # RUN git clone https://github.com/HKUST-Aerial-Robotics/VINS-Fusion.git
+
+# # Build VINS-Fusion
+# WORKDIR $CATKIN_WS
+
+
+ENV TERM=xterm
+ENV PYTHONIOENCODING=UTF-8
+RUN catkin config \
+      --extend /opt/ros/$ROS_DISTRO \
+      --cmake-args \
+        -DCMAKE_BUILD_TYPE=Release && \
+    sed -i '/exec "$@"/i \
+            source "/opt/ros/$ROS_DISTRO/setup.bash"' /ros_entrypoint.sh
+
+# RUN mkdir /ORB_SLAM3
+# WORKDIR /ORB_SLAM3
+CMD ["bash"]
