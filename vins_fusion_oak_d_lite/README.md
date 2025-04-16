@@ -19,3 +19,4 @@ docker run -it --rm \
   --device /dev/bus/usb:/dev/bus/usb \
   -v `pwd`:/catkin_ws/   vinsnoetic_depthai:latest bash
 ```
+Note: dowload depthai https://github.com/luxonis/depthai-python/tree/main dat vao folder vinsfusion truoc khi buid dockerfile
