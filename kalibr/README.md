@@ -20,7 +20,7 @@ rosrun kalibr kalibr_bagcreater --folder ../data/00/. --output-bag calib_data.ba
 B3: calib camera
 
 ```
-rosrun kalibr kalibr_calibrate_cameras --target ../data/imu_cam_calib/april_6x6_80x80cm.yaml --bag calib_data.bag --models pinhole-equi --topics /cam0/image_raw
+rosrun kalibr kalibr_calibrate_cameras --target ../data/imu_cam_calib/april_6x6_80x80cm.yaml --bag calib_data.bag --models pinhole-equi pinhole-equi --topics /cam0/image_raw /cam1/image_raw
 ```
 
 B4: Tim thong so nhieu cua imu de dien vao file yaml (neu co)
