@@ -29,3 +29,7 @@ docker run -it --privileged --net=host --ipc=host     --name="orbslam3"     --gp
 echo 'ROS_PACKAGE_PATH=/opt/ros/noetic/share:/ORB_SLAM3/Examples/ROS'>>~/.bashrc && source ~/.bashrc
 ```
 Note: -v -> mount duong dan pwd/SuperVins vao folder SuperVins
+
+```
+catkin_make -DCATKIN_WHITELIST_PACKAGES="imu_utils"
+```
