@@ -28,5 +28,5 @@ B4: Tim thong so nhieu cua imu de dien vao file yaml (neu co)
 B5: calib camera-imu
 
 ```
-rosrun kalibr kalibr_calibrate_imu_camera --target ../data/imu_cam_calib/april_6x6_80x80cm.yaml --bag ../data/imu_cam_calib/calib_data.bag --cam ../data/imu_cam_calib/calib_data-camchain.yaml --imu ../data/imu_cam_calib/imu_adis16448.yaml
+rosrun kalibr kalibr_calibrate_imu_camera --target ../data/imu_cam_calib/april_6x6_80x80cm.yaml --bag ../data/imu_cam_calib/calib_data.bag --cam ../data/imu_cam_calib/calib_data-camchain.yaml --imu ../data/imu_cam_calib/imu_adis16448.yaml --timeoffset-padding 0.1
 ```
