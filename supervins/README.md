@@ -21,5 +21,6 @@ docker run -it --rm \
 - Run  debug ros
 
 ```
+catkin_make -DCMAKE_BUILD_TYPE=Debug
 rosrun --prefix 'gdb -ex run --args' supervins supervins_node src/SuperVINS/config/euroc/stereo_cam_setup.yaml
 ```
