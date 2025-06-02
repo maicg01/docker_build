@@ -24,3 +24,4 @@ docker run -it --rm \
 catkin_make -DCMAKE_BUILD_TYPE=Debug
 rosrun --prefix 'gdb -ex run --args' supervins supervins_node src/SuperVINS/config/euroc/stereo_cam_setup.yaml
 ```
+- Giải pháp docker 11.8 jetson : https://github.com/dusty-nv/jetson-containers/issues/258
